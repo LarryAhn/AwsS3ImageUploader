@@ -55,7 +55,7 @@ public class AwsS3FileUploaderImpl implements AwsS3FileUploader {
 
     private ObjectMetadata generateObjectMetaData(MultipartFile file) {
         ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.addUserMetadata("UploadedBy", "Andrews");
+        objectMetadata.addUserMetadata("UploadedBy", "AwsS3ImageUploader");
         objectMetadata.setContentType(file.getContentType());
 
         return objectMetadata;
