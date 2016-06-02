@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,9 +34,18 @@ public class AwsS3FileUploaderImpl implements AwsS3FileUploader {
         String uuid = UUID.randomUUID().toString();
         TransferManager transferManager = new TransferManager(this.amazonS3);
         Upload upload = null;
+
         try {
+
+            BufferedImage image = ImageIO.read(file.getInputStream());
+            int width = image.getWidth();
+            int height = image.getHeight();
+            //System.out.println(width);
+            //System.out.println(height);
             //System.out.println(file.getOriginalFilename());
-            upload = transferManager.upload(bucketName, prefix + "/" + uuid, file.getInputStream(), generateObjectMetaData(file));
+
+            upload = transferManager.upload(bucketName,
+                    prefix + "/" + uuid, file.getInputStream(), generateObjectMetaData(file));
         } catch (IOException e) {
             e.printStackTrace();
         }
